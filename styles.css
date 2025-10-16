@@ -23,7 +23,7 @@
 body {
   margin: 0;
 
-  background-image: url("https://www.google.com/url?sa=i&url=https%3A%2F%2Ftrailhead.salesforce.com%2Ftrailblazer-community%2Ffeed%2F0D54S00000Ceg28SAB&psig=AOvVaw3Ys1x4BKGZKpmDgGwbiqAV&ust=1760719314999000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCJD7k92UqZADFQAAAAAdAAAAABAS");
+  background-image: url("background.png");
   color: var(--text);
 }
 
