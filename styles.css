@@ -731,6 +731,10 @@ a {
   overflow: hidden;
 }
 
+.queue-panel[hidden] {
+  display: none;
+}
+
 .queue-panel header {
   background: var(--primary);
   color: white;
