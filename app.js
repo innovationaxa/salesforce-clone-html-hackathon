@@ -219,12 +219,14 @@ const setupQueuePanel = () => {
   const panel = document.querySelector("#queue-panel");
   const transfer = document.querySelector("#queue-transfer");
   const callButton = document.querySelector("#open-call-report");
+  const closeButtons = panel.querySelectorAll("[data-close-queue]");
 
   if (!toggle || !panel) return;
 
   const closePanel = () => {
     panel.hidden = true;
     toggle.setAttribute("aria-expanded", "false");
+    toggle.focus();
   };
 
   toggle.addEventListener("click", () => {
@@ -247,6 +249,13 @@ const setupQueuePanel = () => {
       closePanel();
     }
   });
+
+  closeButtons.forEach((button) =>
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      closePanel();
+    })
+  );
 
   transfer?.addEventListener("click", () => {
     interactions.unshift({
