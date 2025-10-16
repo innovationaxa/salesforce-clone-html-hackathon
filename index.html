@@ -445,28 +445,121 @@
     </div>
 
     <dialog id="call-report-dialog" aria-modal="true">
-      <form method="dialog" class="dialog">
-        <header>
-          <h2>Nouvelle interaction</h2>
-          <button type="submit" value="close" aria-label="Fermer">✖</button>
+      <form method="dialog" class="dialog call-report">
+        <header class="dialog-header">
+          <div>
+            <p class="dialog-eyebrow">CR automatique IA</p>
+            <h2>Consigner un échange</h2>
+          </div>
+          <button type="submit" value="cancel" aria-label="Fermer" class="icon-button">✖</button>
         </header>
-        <label>Type
-          <select name="type" required>
-            <option value="phone">Téléphone</option>
-            <option value="email">Email</option>
-            <option value="meeting">Rendez-vous</option>
-          </select>
-        </label>
-        <label>Date
-          <input type="date" name="date" required />
-        </label>
-        <label>Résumé
-          <textarea name="summary" rows="4" required></textarea>
-        </label>
-        <menu>
-          <button type="submit" value="cancel" class="secondary">Annuler</button>
-          <button type="submit" value="confirm" class="primary">Enregistrer</button>
-        </menu>
+
+        <div class="dialog-body">
+          <section class="ai-summary" aria-label="Transcription automatique">
+            <header class="ai-summary-header">
+              <div>
+                <h3>Transcription automatique IA</h3>
+                <p class="muted tiny">Dernière mise à jour il y a 2 min</p>
+              </div>
+              <span class="badge success">Généré</span>
+            </header>
+
+            <div class="ai-summary-content">
+              <p class="ai-duration">
+                <span class="muted">Durée de l'appel :</span>
+                <span class="strong">00:05:36</span>
+              </p>
+              <ul class="ai-points">
+                <li>Demande de justificatif : copie de la carte d'identité de Mme Dupont</li>
+                <li>Mme Dupont demande à souscrire un nouveau contrat auto</li>
+                <li>Conseille de rappeler la cliente lundi. Mme Dupont réfléchit concernant la proposition</li>
+              </ul>
+              <label class="field textarea-field" for="ai-summary-text">
+                Notes conseiller
+                <textarea
+                  id="ai-summary-text"
+                  name="summary"
+                  rows="8"
+                  required
+                >- Demande de justificatif : copie de la carte d'identité de Mme Dupont
+- Mme Dupont souhaite souscrire un nouveau contrat auto
+- Relancer Mme Dupont lundi pour finaliser la proposition</textarea>
+              </label>
+            </div>
+
+            <footer class="ai-summary-actions">
+              <button type="button" class="secondary">Enregistrer</button>
+              <button type="button" class="ghost">Importer note</button>
+            </footer>
+          </section>
+
+          <section class="ai-form" aria-label="Détails de l'échange">
+            <div class="field">
+              <label for="exchange-object">Objet</label>
+              <select id="exchange-object" name="object" required>
+                <option value="exchange" selected>Échange</option>
+                <option value="followup">Relance</option>
+                <option value="complaint">Réclamation</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="exchange-type">Type</label>
+              <select id="exchange-type" name="type" required>
+                <option value="phone" selected>Échange</option>
+                <option value="email">Email</option>
+                <option value="meeting">Rendez-vous</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="exchange-client">Client</label>
+              <input
+                id="exchange-client"
+                name="client"
+                type="text"
+                value="Sylviane DUPOND"
+                readonly
+              />
+            </div>
+
+            <div class="field">
+              <label for="exchange-direction">Direction</label>
+              <select id="exchange-direction" name="direction" required>
+                <option value="incoming" selected>Entrant</option>
+                <option value="outgoing">Sortant</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="exchange-date">Date</label>
+              <input id="exchange-date" name="date" type="date" required value="2025-08-25" />
+            </div>
+
+            <fieldset class="field fieldset">
+              <legend>Éléments à inclure dans l'email client</legend>
+              <label class="checkbox">
+                <input type="checkbox" name="email-content" value="documents" checked />
+                Documents requis
+              </label>
+              <label class="checkbox">
+                <input type="checkbox" name="email-content" value="recommendations" checked />
+                Recommandations personnalisées
+              </label>
+              <label class="checkbox">
+                <input type="checkbox" name="email-content" value="recap" />
+                Récapitulatif opportunités
+              </label>
+            </fieldset>
+          </section>
+        </div>
+
+        <footer class="dialog-footer">
+          <button type="submit" value="cancel" class="ghost">Annuler</button>
+          <span class="spacer" aria-hidden="true"></span>
+          <button type="submit" value="confirm" class="secondary">Enregistrer</button>
+          <button type="submit" value="send" class="primary">Envoyer au client</button>
+        </footer>
       </form>
     </dialog>
 

@@ -812,40 +812,214 @@ a {
   border: 1px solid var(--border);
   padding: 0;
   display: grid;
+  gap: 0;
+}
+
+.dialog-header {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--border);
   gap: 1rem;
 }
 
-.dialog header {
-  padding: 1rem 1.25rem;
+.dialog-eyebrow {
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin: 0 0 0.3rem;
+}
+
+.dialog-header h2 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.dialog-body {
+  padding: 1.5rem;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.dialog-footer {
+  padding: 1rem 1.5rem 1.35rem;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  border-top: 1px solid var(--border);
+}
+
+.dialog-footer .spacer {
+  flex: 1;
+}
+
+.ghost {
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  padding: 0.55rem 1.2rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.ghost:hover,
+.ghost:focus-visible {
+  background: rgba(15, 23, 42, 0.05);
+  color: var(--text);
+}
+
+.call-report {
+  min-width: min(62rem, 95vw);
+  max-width: 64rem;
+  box-shadow: var(--shadow);
+}
+
+.call-report .icon-button {
+  border: none;
+  background: rgba(148, 163, 184, 0.12);
+  color: var(--muted);
+}
+
+.call-report .dialog-body {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 900px) {
+  .call-report .dialog-body {
+    grid-template-columns: 1.6fr 1fr;
+    align-items: start;
+  }
+}
+
+.ai-summary,
+.ai-form {
+  background: rgba(248, 250, 252, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  display: grid;
+  gap: 1.1rem;
+}
+
+.ai-summary-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+  gap: 1rem;
 }
 
-.dialog label {
+.ai-summary-header h3 {
+  margin: 0;
+}
+
+.ai-summary-header .muted {
+  margin-top: 0.2rem;
+}
+
+.ai-duration {
+  margin: 0;
+  font-size: 0.9rem;
+  display: flex;
+  gap: 0.35rem;
+  align-items: baseline;
+}
+
+.ai-points {
+  margin: 0;
+  padding-left: 1.1rem;
   display: grid;
   gap: 0.35rem;
-  font-size: 0.85rem;
-  padding: 0 1.25rem;
+  font-size: 0.9rem;
 }
 
-.dialog textarea,
-.dialog select,
-.dialog input {
+.textarea-field textarea {
+  min-height: 11rem;
   border-radius: 0.75rem;
-  border: 1px solid var(--border);
-  padding: 0.6rem 0.75rem;
-  resize: vertical;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  padding: 0.75rem 1rem;
+  font-family: inherit;
+  line-height: 1.5;
+  background: white;
 }
 
-.dialog menu {
+.ai-summary-actions {
   display: flex;
-  justify-content: flex-end;
   gap: 0.75rem;
-  padding: 1rem 1.25rem;
-  border-top: 1px solid var(--border);
-  margin: 0;
+}
+
+.field {
+  display: grid;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+}
+
+.field label,
+.field legend {
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.field select,
+.field input,
+.field textarea {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  padding: 0.6rem 0.75rem;
+  background: white;
+  font-size: 0.95rem;
+}
+
+.field input[readonly] {
+  background: rgba(226, 232, 240, 0.4);
+}
+
+.fieldset {
+  padding: 1rem;
+  border-radius: 0.9rem;
+  border: 1px dashed rgba(148, 163, 184, 0.6);
+  gap: 0.6rem;
+}
+
+.fieldset legend {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.4rem;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.checkbox input {
+  accent-color: var(--primary);
+  transform: scale(1.1);
+}
+
+.ai-form {
+  align-content: start;
+}
+
+.ai-form .field:not(.fieldset) {
+  padding-bottom: 0.2rem;
+}
+
+.ai-form .field select {
+  background-image: linear-gradient(45deg, transparent 50%, #94a3b8 50%),
+    linear-gradient(135deg, #94a3b8 50%, transparent 50%);
+  background-position: calc(100% - 1rem) calc(50% - 0.35rem),
+    calc(100% - 0.85rem) calc(50% - 0.35rem);
+  background-size: 0.35rem 0.35rem;
+  background-repeat: no-repeat;
+  padding-right: 2rem;
+  appearance: none;
 }
 
 @media (min-width: 1024px) {
