@@ -735,6 +735,22 @@ a {
   background: var(--primary);
   color: white;
   padding: 0.9rem 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.queue-panel header h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.queue-panel header .close-queue {
+  color: inherit;
+  border-color: rgba(255, 255, 255, 0.4);
+  width: 2rem;
+  height: 2rem;
 }
 
 .queue-body {
