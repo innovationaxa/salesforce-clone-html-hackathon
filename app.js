@@ -275,8 +275,9 @@ const setupQueuePanel = () => {
 const setupCallReportDialog = () => {
   const dialog = document.querySelector("#call-report-dialog");
   const openButton = document.querySelector("#open-call-report");
+  const form = dialog?.querySelector("form");
 
-  if (!(dialog instanceof HTMLDialogElement) || !openButton) return;
+  if (!(dialog instanceof HTMLDialogElement) || !openButton || !form) return;
 
   const resetNotification = () => openButton.classList.remove("pulse");
 
@@ -284,28 +285,47 @@ const setupCallReportDialog = () => {
     dialog.showModal();
   });
 
-  dialog.addEventListener("close", () => {
-    if (dialog.returnValue === "confirm") {
-      const formData = new FormData(dialog.querySelector("form") ?? undefined);
-      const summary = (formData.get("summary") ?? "").toString().trim();
-      const type = (formData.get("type") ?? "phone").toString();
-      const date = (formData.get("date") ?? "").toString();
+  dialog.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    dialog.close("cancel");
+  });
 
-      if (!summary || !date) return;
+  dialog.addEventListener("close", () => {
+    const action = dialog.returnValue;
+    const formData = new FormData(form);
+    const summary = (formData.get("summary") ?? "").toString().trim();
+    const type = (formData.get("type") ?? "phone").toString();
+    const date = (formData.get("date") ?? "").toString();
+
+    const normaliseSummary = (text) =>
+      text
+        .split(/\n+/)
+        .map((line) => line.replace(/^[-•]\s*/, "").trim())
+        .find((line) => line.length > 0) ?? text;
+
+    if (action === "confirm" || action === "send") {
+      if (!summary || !date) {
+        form.reset();
+        return;
+      }
+
+      const condensed = normaliseSummary(summary);
+      const tags = ["exchange"];
+      if (action === "send") tags.push("company");
 
       interactions.unshift({
         id: crypto.randomUUID(),
-        summary,
+        summary: condensed,
         type,
         date,
         timestamp: new Date().toISOString(),
-        tags: ["exchange"]
+        tags
       });
       renderInteractions();
-      dialog.querySelector("form")?.reset();
+      form.reset();
       resetNotification();
-    } else if (dialog.returnValue === "cancel") {
-      dialog.querySelector("form")?.reset();
+    } else {
+      form.reset();
     }
   });
 };
