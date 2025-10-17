@@ -121,7 +121,7 @@ function renderRecommendations(recos) {
 
   // Compteur dans le header
   const h3 = header?.querySelector('h3');
-  if (h3) h3.textContent = `Recommandations (${Array.isArray(rec os) ? recos.length : 0})`;
+if (h3) h3.textContent = `Recommandations (${Array.isArray(recos) ? recos.length : 0})`;
 
   (recos || []).forEach(r => {
     const { cls, label } = badgeByScore(Number(r.score || 0));
@@ -608,3 +608,4 @@ const initialise = () => {
 };
 
 initialise();
+
