@@ -1,0 +1,385 @@
+==========================================
+DOCUMENTATION D’INTÉGRATION
+data.json ⇄ app.js ⇄ index.html
+
+OBJECTIF ET ARCHITECTURE
+
+But : rendre la page index.html dynamique à partir d’un fichier de données data.json, produit par le back-end (peu importe le langage).
+
+Principe :
+
+index.html contient la structure (sections, cartes, champs…)
+
+app.js lit data.json et met à jour le contenu de la page
+
+le back met à jour data.json ou renvoie un JSON via une route (ex : /api/dashboard)
+
+Arborescence :
+/
+├─ index.html (structure et composants)
+├─ styles.css (style)
+├─ app.js (logique dynamique)
+└─ data.json (données métier)
+
+Flux des données :
+
+app.js fait un fetch("./data.json")
+
+Il lit le JSON et appelle des fonctions render*
+
+Chaque render met à jour une partie du DOM de index.html
+
+SCHÉMA COMPLET DU FICHIER data.json
+
+Exemple complet de data.json :
+
+{
+"profile": {
+"segment_label": "Cadre Entreprise",
+"chips": [
+"🎂 41 ans",
+"👨‍👩‍👧‍👦 Mariée, 2 enfants",
+"📍 Lasseube (64)",
+"🏡 + résidence Biarritz"
+]
+},
+"stats": {
+"anciennete": 22,
+"score": 3,
+"incidents": 0
+},
+"kyc": {
+"completeness_pct": 50,
+"missing_docs_title": "📋 Pièces d'identité obligatoires à collecter",
+"missing_docs": ["CNI Mme Dupont (recto/verso)", "Justificatif de domicile < 3 mois"]
+},
+"sections": {
+"contrats": { "auto": 1, "habitation": 2, "banque": 2 },
+"profil": {
+"fidelite": "Très fidèle",
+"incidents": "Aucun",
+"potentiel": "Élevé"
+},
+"interactions": {
+"last_event": "Sinistre Auto (mai 2025) – Accrochage mineur, réparé via SAD.",
+"satisfaction": 4.5
+}
+},
+"life_moments": [
+"👶 Enfants jeunes adultes",
+"🏡 Résidence secondaire récente"
+],
+"discovery_questions": [
+"« Comment envisagez-vous l'avenir de vos enfants ? »",
+"« Avez-vous pensé à sécuriser votre résidence secondaire ? »"
+],
+"recommendations": [
+{
+"title": "Assurance Vie Épargne",
+"score": 8,
+"blurb": "Cadre avec capacité d'épargne, moment idéal pour préparer transmission.",
+"prep_bullets": [
+"Avantages fiscaux attractifs : Jusqu'à 152 500€ exonérés par bénéficiaire.",
+"Rendement compétitif : Performance moyenne de 3,2% en 2024.",
+"Disponibilité des fonds : Rachat possible sans pénalité après 8 ans."
+],
+"live_bullets": [
+"Avantages fiscaux transmission",
+"Rendement 3,2% en 2024",
+"Disponible après 8 ans"
+]
+}
+],
+"call": {
+"duration": "00:05:36",
+"summary": "- Demande de justificatif : copie de la carte d'identité de Mme Dupont\n- Mme Dupont souhaite souscrire un nouveau contrat auto\n- Relancer Mme Dupont lundi pour finaliser la proposition"
+}
+}
+
+DÉTAIL PAR SECTION DU JSON
+
+PROFILE
+
+segment_label : texte affiché au-dessus des puces
+
+chips : liste des puces affichées (âge, famille, résidence…)
+
+Mapping :
+
+p.muted → segment_label
+
+ul.chips → chaque entrée du tableau chips
+
+STATS
+
+anciennete : chiffre affiché dans “Ancienneté”
+
+score : chiffre affiché dans “Score fidélité”
+
+incidents : nombre d’incidents (0 = success)
+
+Mapping :
+
+1re stat-value = anciennete
+
+2e stat-value = score
+
+3e stat-value = incidents
+
+KYC
+
+completeness_pct : pourcentage de complétude (0 à 100)
+
+missing_docs_title : titre de la section
+
+missing_docs : liste des documents manquants
+
+Mapping :
+
+strong → "⚠️ Complétude KYC : XX%"
+
+p → titre et détail des documents manquants
+
+SECTIONS.CONTRATS
+
+auto, habitation, banque : nombre de contrats actifs
+
+Mapping :
+
+“🏠 Contrats” → “Contrats actifs : X Auto • Y Habitation • Z Banque”
+
+SECTIONS.PROFIL
+
+fidelite : ex “Très fidèle”
+
+incidents : ex “Aucun”
+
+potentiel : ex “Élevé”
+
+Mapping :
+
+“🧑 Profil” → contenu HTML généré dynamiquement
+
+SECTIONS.INTERACTIONS
+
+last_event : dernier événement texte
+
+satisfaction : note de satisfaction (ex 4.5/5)
+
+Mapping :
+
+“💬 Dernières interactions” → texte + “Satisfaction : X/5”
+
+LIFE_MOMENTS
+
+Liste de puces sur les moments de vie détectés
+
+Mapping :
+
+ul.chips (dans “Moments de vie détectés”)
+
+DISCOVERY_QUESTIONS
+
+Liste de questions affichées dans “Questions de découverte”
+
+Mapping :
+
+Remplace les <p> de cette section
+
+RECOMMENDATIONS
+Chaque objet représente une carte :
+
+title : titre de la recommandation
+
+score : note de 0 à 10 (détermine le style du badge)
+
+blurb : courte phrase descriptive
+
+prep_bullets : liste des points clés “Préparation”
+
+live_bullets : liste des points “Live”
+
+Mapping :
+
+Chaque entrée → un <article class="recommendation">
+
+Le compteur “Recommandations (X)” est calculé automatiquement
+
+CALL
+
+duration : durée affichée dans “Durée de l’appel”
+
+summary : texte inséré dans le champ de notes conseiller
+
+Mapping :
+
+span.strong → duration
+
+textarea#ai-summary-text → summary
+
+EMAIL CONTENT (checkboxes)
+Quand on coche/décoche les cases :
+
+“Documents requis” → ajoute la liste des missing_docs
+
+“Recommandations personnalisées” → ajoute les titres des recommandations
+
+“Récapitulatif opportunités” → ajoute les compteurs des contrats actifs
+
+Ces blocs sont ajoutés dans le textarea des notes.
+
+SPÉCIFICATION TECHNIQUE (TYPES)
+
+TypeScript (pour référence) :
+
+type DataJson = {
+profile: {
+segment_label: string;
+chips: string[];
+};
+stats: {
+anciennete: number;
+score: number;
+incidents: number;
+};
+kyc: {
+completeness_pct: number;
+missing_docs_title?: string;
+missing_docs?: string[];
+};
+sections: {
+contrats: { auto: number; habitation: number; banque: number; };
+profil: { fidelite: string; incidents: string; potentiel: string; };
+interactions: { last_event: string; satisfaction: number; };
+};
+life_moments: string[];
+discovery_questions: string[];
+recommendations: Array<{
+title: string;
+score: number;
+blurb?: string;
+prep_bullets?: string[];
+live_bullets?: string[];
+}>;
+call: {
+duration: string;
+summary: string;
+};
+};
+
+RÈGLES DE FORMAT ET BONNES PRATIQUES
+
+Nombres : number
+
+Pourcentage : 0 à 100
+
+Scores : 0 à 10
+
+Durée : chaîne “HH:MM:SS”
+
+Dates futures : format ISO (YYYY-MM-DDTHH:mm:ssZ)
+
+Champs optionnels : peuvent être omis (le front affiche “—”)
+
+COMPORTEMENT CÔTÉ FRONT (app.js)
+
+Rechargement des sections sans doublons (idempotent)
+
+Ajout automatique de la classe “success” si incidents = 0
+
+Badge de recommandation selon le score :
+
+=8 → success
+6–7 → warning
+<6 → info
+
+Les cases à cocher injectent ou suppriment des blocs textuels dans le textarea
+
+Les listes (chips, recos, etc.) sont régénérées à chaque appel
+
+CONSIGNES POUR LES DÉVELOPPEURS BACK
+
+Retourner un JSON conforme au schéma ci-dessus.
+
+Toujours inclure au minimum :
+
+profile.segment_label
+
+profile.chips[]
+
+stats (anciennete, score, incidents)
+
+kyc.completeness_pct
+
+sections (contrats, profil, interactions)
+
+life_moments[]
+
+discovery_questions[]
+
+recommendations[]
+
+call.duration et call.summary
+
+Le fichier ou endpoint doit renvoyer un JSON valide UTF-8.
+
+Autoriser CORS si le front n’est pas servi depuis le même domaine.
+
+Fréquence de mise à jour libre (toutes les X secondes ou à la demande).
+
+Pour le test, placer data.json à la racine du projet et ouvrir index.html.
+
+TESTS RAPIDES
+
+Ouvrir index.html et vérifier :
+• Les puces du profil sont remplacées
+• Les chiffres des stats sont mis à jour
+• Le pourcentage KYC est correct
+• Les contrats / profil / interactions sont actualisés
+• Les moments de vie et questions apparaissent
+• Les recommandations se régénèrent avec le bon nombre
+• La durée et le résumé sont affichés
+• Les cases à cocher ajoutent des blocs dans le résumé
+
+RÉSUMÉ DU CONTRAT D’API À TRANSMETTRE AUX ÉQUIPES BACK
+
+Le fichier ou endpoint JSON doit fournir :
+
+{
+profile: {
+segment_label: string,
+chips: string[]
+},
+stats: {
+anciennete: number,
+score: number,
+incidents: number
+},
+kyc: {
+completeness_pct: number,
+missing_docs_title?: string,
+missing_docs?: string[]
+},
+sections: {
+contrats: { auto, habitation, banque },
+profil: { fidelite, incidents, potentiel },
+interactions: { last_event, satisfaction }
+},
+life_moments: string[],
+discovery_questions: string[],
+recommendations: [
+{
+title: string,
+score: number,
+blurb?: string,
+prep_bullets?: string[],
+live_bullets?: string[]
+}
+],
+call: {
+duration: string,
+summary: string
+}
+}
+
+FIN DU DOCUMENT
