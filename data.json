@@ -1,0 +1,73 @@
+{
+  "profile": {
+    "segment_label": "Cadre Entreprise",
+    "chips": [
+      "🎂 41 ans",
+      "👨‍👩‍👧‍👦 Mariée, 2 enfants",
+      "📍 Lasseube (64)",
+      "🏡 + résidence Biarritz"
+    ]
+  },
+  "stats": {
+    "anciennete": 22,
+    "score": 3,
+    "incidents": 0
+  },
+  "kyc": {
+    "completeness_pct": 50,
+    "missing_docs_title": "📋 Pièces d'identité obligatoires à collecter",
+    "missing_docs": ["CNI Mme Dupont (recto/verso)", "Justificatif de domicile < 3 mois"]
+  },
+  "sections": {
+    "contrats": { "auto": 1, "habitation": 2, "banque": 2 },
+    "profil": {
+      "fidelite": "Très fidèle",
+      "incidents": "Aucun",
+      "potentiel": "Élevé"
+    },
+    "interactions": {
+      "last_event": "Sinistre Auto (mai 2025) – Accrochage mineur, réparé via SAD.",
+      "satisfaction": 4.5
+    }
+  },
+  "life_moments": ["👶 Enfants jeunes adultes", "🏡 Résidence secondaire récente"],
+  "discovery_questions": [
+    "« Comment envisagez-vous l'avenir de vos enfants ? »",
+    "« Avez-vous pensé à sécuriser votre résidence secondaire ? »"
+  ],
+  "recommendations": [
+    {
+      "title": "Assurance Vie Épargne",
+      "score": 8,
+      "blurb": "Cadre avec capacité d'épargne, moment idéal pour préparer transmission.",
+      "prep_bullets": [
+        "Avantages fiscaux attractifs : Jusqu'à 152 500€ exonérés par bénéficiaire.",
+        "Rendement compétitif : Performance moyenne de 3,2% en 2024.",
+        "Disponibilité des fonds : Rachat possible sans pénalité après 8 ans."
+      ],
+      "live_bullets": [
+        "Avantages fiscaux transmission",
+        "Rendement 3,2% en 2024",
+        "Disponible après 8 ans"
+      ]
+    },
+    {
+      "title": "Mutuelle Santé Famille",
+      "score": 6,
+      "blurb": "2 enfants jeunes adultes = besoin de couverture santé renforcée.",
+      "prep_bullets": ["Protection optimale jeunes adultes.", "Tarif famille avantageux.", "Accompagnement prévention."],
+      "live_bullets": ["Couverture santé renforcée", "Tarif famille", "Prévention personnalisée"]
+    },
+    {
+      "title": "Audit Résidence Secondaire",
+      "score": 5,
+      "blurb": "Protection de la résidence secondaire (Biarritz) à renforcer.",
+      "prep_bullets": ["Analyse de la valeur du bien et des équipements.", "Couverture vol et dégât des eaux adaptée.", "Solutions de télésurveillance."],
+      "live_bullets": ["Valorisation du bien", "Couverture vol/dégâts", "Télésurveillance"]
+    }
+  ],
+  "call": {
+    "duration": "00:05:36",
+    "summary": "- Demande de justificatif : copie de la carte d'identité de Mme Dupont\n- Mme Dupont souhaite souscrire un nouveau contrat auto\n- Relancer Mme Dupont lundi pour finaliser la proposition"
+  }
+}
